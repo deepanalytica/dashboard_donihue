@@ -432,6 +432,7 @@ elif seccion == "Infraestructura Educativa":
     inversión total de **{format_pesos(data["proyectos_infraestructura"]["Monto (CLP)"].sum())}**.
     """)
 
+    # Mostrar el monto de inversión por proyecto en un gráfico de barras
     fig = px.bar(
         data["proyectos_infraestructura"],
         x="Proyecto",
@@ -443,23 +444,16 @@ elif seccion == "Infraestructura Educativa":
     fig.update_traces(texttemplate='%{y:,.0f}', textposition='outside')
     st.plotly_chart(fig)
 
-    # Mapa 3D de Proyectos de Infraestructura
-    st.subheader("Mapa 3D de Proyectos de Infraestructura")
+    # Mapa de Doñihue con la ubicación aproximada de los proyectos
+    st.subheader("Ubicación Aproximada de los Proyectos")
     st.write("""
-    Explore la ubicación de los proyectos de infraestructura educativa en el mapa 3D interactivo.
+    Los marcadores en el mapa indican la ubicación aproximada de los proyectos
+    de infraestructura educativa en la comuna de Doñihue. 
     """)
 
-    fig = px.scatter_3d(
-        data["proyectos_infraestructura"],
-        x='Latitud',
-        y='Longitud',
-        z='Elevación',
-        color='Proyecto',
-        title='Mapa 3D de Proyectos de Infraestructura',
-        color_discrete_sequence=COLOR_PALETTE
-    )
-    st.plotly_chart(fig)
-
+    # URL de un mapa de Doñihue (reemplazar con un mapa real)
+    mapa_url = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3328.809334722628!2d-70.96627708425823!3d-34.21435048059632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x966383e0a867398d%3A0x897d4e403c83639b!2sDo%C3%B1ihue%2C%20Regi%C3%B3n%20del%20Libertador%20Gral.%20Bernardo%20O%27Higgins!5e0!3m2!1ses-419!2scl!4v1681288029941!5m2!1ses-419!2scl"
+    st.components.v1.iframe(mapa_url, width=700, height=500)
 elif seccion == "Salud":
     st.header("Salud: Cuidando el Bienestar de Nuestra Comunidad")
 
