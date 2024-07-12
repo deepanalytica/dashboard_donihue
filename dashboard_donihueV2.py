@@ -2,13 +2,12 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
 from PIL import Image
 
-# Paleta de colores para una identidad visual consistente
+# Paleta de colores consistente
 COLOR_PALETTE = px.colors.qualitative.Set2
 
-# Función para formatear números a pesos chilenos
+# Formato de pesos chilenos
 def format_pesos(valor):
     return f"${valor:,.0f}"
 
@@ -248,7 +247,7 @@ def load_data():
         "kpi": df_kpi
     }
 
-# Cargar datos
+# Cargar datos al iniciar la aplicación
 data = load_data()
 
 # Configuración de la página
@@ -258,31 +257,48 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Título principal
+# Título principal y logo
 st.title("Avances de Doñihue 2023: Un Año de Tradición y Progreso")
-
-# Logo de la Municipalidad
-logo_muni = Image.open("Logo_Doñihue.png") # Reemplazar "Logo_Doñihue.png" con la ruta al logo
-st.image(logo_muni, width=200)
+logo_muni = Image.open("Logo_Doñihue.png") # Reemplaza con la ruta correcta
+st.sidebar.image(logo_muni, width=150)
 
 # Sidebar para la navegación
 st.sidebar.title("Navegación")
 seccion = st.sidebar.radio(
     "Selecciona una sección:",
     [
-        "Inicio", "Concejo Municipal", "Educación", "Transporte Escolar", "Mejoras Tecnológicas",
-        "Infraestructura Educativa", "Salud", "PRODESAL", "Reciclaje", "Beneficios Sociales",
-        "Eventos Culturales", "Seguridad", "Evolución de Usuarios de Salud", "Presupuesto Municipal",
-        "Proyectos", "Auditorías 2023", "Sumarios", "Juicios", "Convenios", "DIDECO", "Equipo de Operaciones",
-        "Plan de Inversiones en Infraestructura", "Complejo El Tabo"
+        "Inicio",
+        "Concejo Municipal",
+        "Educación",
+        "Transporte Escolar",
+        "Mejoras Tecnológicas",
+        "Infraestructura Educativa",
+        "Salud",
+        "PRODESAL",
+        "Reciclaje",
+        "Beneficios Sociales",
+        "Eventos Culturales",
+        "Seguridad",
+        "Evolución de Usuarios de Salud",
+        "Presupuesto Municipal",
+        "Proyectos",
+        "Auditorías 2023",
+        "Sumarios",
+        "Juicios",
+        "Convenios",
+        "DIDECO",
+        "Equipo de Operaciones", # Asegúrate de tener datos para esta sección
+        "Plan de Inversiones en Infraestructura", # Asegúrate de tener datos para esta sección
+        "Complejo El Tabo"  # Asegúrate de tener datos para esta sección
     ]
 )
 
-# Sección de inicio
+# Contenido dinámico según la sección seleccionada
 if seccion == "Inicio":
     st.write("""
-    Este dashboard interactivo presenta los logros y avances del municipio de Doñihue durante el año 2023.
-    Utiliza el menú de la izquierda para navegar entre las diferentes secciones y explorar los datos detallados.
+    Este dashboard interactivo presenta los logros y avances del municipio
+    de Doñihue durante el año 2023. Utiliza el menú de la izquierda para
+    navegar entre las diferentes secciones y explorar los datos detallados.
     """)
 
     # Mostrar los KPI en tarjetas
@@ -303,11 +319,13 @@ if seccion == "Inicio":
         st.metric("Presupuesto Municipal", format_pesos(data['kpi']['Presupuesto Municipal'].iloc[0]))
 
 elif seccion == "Concejo Municipal":
-    st.header("Concejo Municipal")
+    st.header("Concejo Municipal: Liderazgo y Toma de Decisiones")
     st.write("""
-    El Honorable Concejo Municipal, liderado por la Alcaldesa Pabla Ponce Valle, ha trabajado arduamente 
-    durante el 2023 para impulsar el progreso de Doñihue. A través de sesiones ordinarias, extraordinarias 
-    y reuniones de comisión, se han tomado decisiones cruciales para el bienestar de nuestra comunidad. 
+    El Honorable Concejo Municipal, liderado por la Alcaldesa Pabla Ponce
+    Valle, ha trabajado arduamente durante el 2023 para impulsar el
+    progreso de Doñihue. A través de sesiones ordinarias, extraordinarias
+    y reuniones de comisión, se han tomado decisiones cruciales para el
+    bienestar de nuestra comunidad.
     """)
 
     col1, col2, col3 = st.columns(3)
@@ -319,49 +337,56 @@ elif seccion == "Concejo Municipal":
         st.metric("Reuniones de Comisión", "10")
 
     st.write("""
-    Además, se han confeccionado 163 acuerdos de Concejo Municipal, 3.393 decretos alcaldicios 
-    otorgados y 4.490 decretos alcaldicios SIAPER otorgados, lo que demuestra el compromiso 
-    con la gestión transparente y eficiente.
+    Además, se han confeccionado 163 acuerdos de Concejo Municipal,
+    3.393 decretos alcaldicios otorgados y 4.490 decretos alcaldicios
+    SIAPER otorgados, lo que demuestra el compromiso con la gestión
+    transparente y eficiente.
     """)
 
 elif seccion == "Educación":
     st.header("Educación: Formando el Futuro de Doñihue")
     st.write("""
-    La educación es una prioridad para Doñihue. El DAEM cuenta con 12 establecimientos, donde trabajan 
-    aproximadamente 500 profesionales dedicados a la formación de nuestros niños, niñas y jóvenes. 
+    La educación es una prioridad para Doñihue. El DAEM cuenta con 12
+    establecimientos, donde trabajan aproximadamente 500 profesionales
+    dedicados a la formación de nuestros niños, niñas y jóvenes.
     """)
 
-    # Mostrar la distribución de estudiantes por género con un gráfico de barras agrupadas
+    # Mostrar la distribución de estudiantes por género
+    # con un gráfico de barras agrupadas
     fig = px.bar(
         data["estudiantes"],
         x="Establecimiento",
         y=["Hombres", "Mujeres"],
         title="Distribución de Estudiantes por Establecimiento",
-        barmode='group',  
-        color_discrete_sequence=COLOR_PALETTE
+        barmode='group',
+        color_discrete_sequence=COLOR_PALETTE,
+        labels={"value":"Cantidad de Estudiantes"}
     )
-    fig.update_layout(xaxis_title="", yaxis_title="Cantidad de Estudiantes")
+    fig.update_layout(xaxis_title="Establecimientos Educacionales")
     st.plotly_chart(fig)
 
     st.write(f"""
-    En el 2023, el universo total de estudiantes fue de **{data["estudiantes"]["Total"].sum():,.0f}**, 
-    distribuidos en los diferentes establecimientos de la comuna. Además, JUNAEB entregó un total de 
-    **{1937:,.0f} raciones** para asegurar la alimentación de nuestros estudiantes.
+    En el 2023, el universo total de estudiantes fue de
+    **{data["estudiantes"]["Total"].sum():,.0f}**,
+    distribuidos en los diferentes establecimientos de la comuna.
+    Además, JUNAEB entregó un total de **{1937:,.0f} raciones**
+    para asegurar la alimentación de nuestros estudiantes.
     """)
 
 elif seccion == "Transporte Escolar":
     st.header("Transporte Escolar: Acercando la Educación a Todos")
     st.write(f"""
-    El transporte escolar es fundamental para asegurar el acceso a la educación, especialmente en una comuna 
-    con la geografía de Doñihue. Durante el 2023, se transportaron **{data["transporte_escolar"]["Alumnos Transportados"].sum():,.0f} estudiantes**, 
+    El transporte escolar es fundamental para asegurar el acceso a la educación, 
+    especialmente en una comuna con la geografía de Doñihue. Durante el 2023, 
+    se transportaron **{data["transporte_escolar"]["Alumnos Transportados"].sum():,.0f} estudiantes**, 
     garantizando que la distancia no sea un impedimento para su desarrollo educativo.
     """)
 
     fig = px.bar(
-        data["transporte_escolar"], 
-        x="Línea", 
-        y=["Alumnos Transportados", "Costo Anual (CLP)"], 
-        title="Transporte Escolar 2023", 
+        data["transporte_escolar"],
+        x="Línea",
+        y=["Alumnos Transportados", "Costo Anual (CLP)"],
+        title="Transporte Escolar 2023",
         barmode='group',
         color_discrete_sequence=COLOR_PALETTE
     )
@@ -369,36 +394,48 @@ elif seccion == "Transporte Escolar":
     fig.update_traces(texttemplate='%{y:,.0f}', textposition='outside')
     st.plotly_chart(fig)
 
+    st.write("""
+    El gráfico muestra la cantidad de alumnos transportados y el costo anual
+    para cada línea de transporte escolar. 
+    """)
+
 elif seccion == "Mejoras Tecnológicas":
     st.header("Mejoras Tecnológicas: Preparando a Doñihue para el Futuro Digital")
     st.write(f"""
-    En la era digital, el acceso a la tecnología es indispensable para una educación de calidad. 
-    Durante el 2023, se realizaron importantes inversiones en mejoras tecnológicas para nuestros 
-    establecimientos educativos, con un presupuesto total de {format_pesos(data["mejoras_tecnologicas"]["Presupuesto (CLP)"].sum())}. 
+    En la era digital, el acceso a la tecnología es indispensable para una 
+    educación de calidad. Durante el 2023, se realizaron importantes inversiones 
+    en mejoras tecnológicas para nuestros establecimientos educativos, con un 
+    presupuesto total de {format_pesos(data["mejoras_tecnologicas"]["Presupuesto (CLP)"].sum())}.
     """)
 
     fig = px.pie(
-        data["mejoras_tecnologicas"], 
-        values="Presupuesto (CLP)", 
-        names="Proyecto", 
+        data["mejoras_tecnologicas"],
+        values="Presupuesto (CLP)",
+        names="Proyecto",
         title="Distribución del Presupuesto en Mejoras Tecnológicas",
         color_discrete_sequence=COLOR_PALETTE
     )
     fig.update_traces(textposition='inside', textinfo='percent+label')
     st.plotly_chart(fig)
 
+    st.write("""
+    El gráfico muestra la distribución del presupuesto en diferentes
+    proyectos de mejoras tecnológicas.
+    """)
+
 elif seccion == "Infraestructura Educativa":
     st.header("Infraestructura Educativa: Construyendo Espacios para el Aprendizaje")
     st.write(f"""
-    Una infraestructura adecuada es fundamental para el desarrollo de una educación de calidad. 
-    Durante el 2023, se ejecutaron diversos proyectos de infraestructura en los establecimientos 
-    educativos de Doñihue, con una inversión total de **{format_pesos(data["proyectos_infraestructura"]["Monto (CLP)"].sum())}**.
+    Una infraestructura adecuada es fundamental para el desarrollo de una 
+    educación de calidad. Durante el 2023, se ejecutaron diversos proyectos 
+    de infraestructura en los establecimientos educativos de Doñihue, con una 
+    inversión total de **{format_pesos(data["proyectos_infraestructura"]["Monto (CLP)"].sum())}**.
     """)
 
     fig = px.bar(
-        data["proyectos_infraestructura"], 
-        x="Proyecto", 
-        y="Monto (CLP)", 
+        data["proyectos_infraestructura"],
+        x="Proyecto",
+        y="Monto (CLP)",
         title="Proyectos de Infraestructura 2023",
         color_discrete_sequence=COLOR_PALETTE
     )
@@ -409,15 +446,15 @@ elif seccion == "Infraestructura Educativa":
     # Mapa 3D de Proyectos de Infraestructura
     st.subheader("Mapa 3D de Proyectos de Infraestructura")
     st.write("""
-    Explore la ubicación de los proyectos de infraestructura educativa en el mapa 3D interactivo. 
+    Explore la ubicación de los proyectos de infraestructura educativa en el mapa 3D interactivo.
     """)
 
     fig = px.scatter_3d(
-        data["proyectos_infraestructura"],  
-        x='Latitud', 
-        y='Longitud', 
-        z='Elevación', 
-        color='Proyecto', 
+        data["proyectos_infraestructura"],
+        x='Latitud',
+        y='Longitud',
+        z='Elevación',
+        color='Proyecto',
         title='Mapa 3D de Proyectos de Infraestructura',
         color_discrete_sequence=COLOR_PALETTE
     )
@@ -425,11 +462,12 @@ elif seccion == "Infraestructura Educativa":
 
 elif seccion == "Salud":
     st.header("Salud: Cuidando el Bienestar de Nuestra Comunidad")
+
     st.write(f"""
-    El acceso a la salud es un derecho fundamental, y en Doñihue trabajamos para garantizarlo 
-    a todos los vecinos. Durante el 2023, se realizaron **{103579:,.0f} prestaciones de salud** 
-    en los CESFAM de Doñihue y Lo Miranda, lo que refleja el compromiso con la atención médica 
-    de calidad.
+    El acceso a la salud es un derecho fundamental, y en Doñihue trabajamos 
+    para garantizarlo a todos los vecinos. Durante el 2023, se realizaron 
+    **{103579:,.0f} prestaciones de salud** en los CESFAM de Doñihue y 
+    Lo Miranda, lo que refleja el compromiso con la atención médica de calidad.
     """)
 
     col1, col2 = st.columns(2)
@@ -437,45 +475,67 @@ elif seccion == "Salud":
     with col1:
         st.subheader("Ingresos al Servicio de Salud 2023")
         fig = px.pie(
-            data["ingresos_salud"], 
-            values="Monto (CLP)", 
-            names="Fuente", 
+            data["ingresos_salud"],
+            values="Monto (CLP)",
+            names="Fuente",
             title="Distribución de Ingresos al Servicio de Salud 2023",
-            color_discrete_sequence=COLOR_PALETTE
+            color_discrete_sequence=COLOR_PALETTE,
         )
         fig.update_traces(textposition='inside', textinfo='percent+label')
         st.plotly_chart(fig)
+
+        st.write("""
+        El aporte per-cápita mensual y los convenios de salud representan las
+        principales fuentes de ingreso al sistema de salud comunal.
+        """)
 
     with col2:
         st.subheader("Gastos en Salud 2023")
         data_gastos_salud = {
-            "Categoría": ["Personal", "Equipamiento", "Medicamentos", "Mantenimiento", "Programas de Salud"],
-            "Monto (CLP)": [12000000, 8000000, 5000000, 3000000, 7000000]
+            "Categoría": [
+                "Personal",
+                "Equipamiento",
+                "Medicamentos",
+                "Mantenimiento",
+                "Programas de Salud",
+            ],
+            "Monto (CLP)": [12000000, 8000000, 5000000, 3000000, 7000000],
         }
         df_gastos_salud = pd.DataFrame(data_gastos_salud)
         fig = px.pie(
-            df_gastos_salud, 
-            values="Monto (CLP)", 
-            names="Categoría", 
+            df_gastos_salud,
+            values="Monto (CLP)",
+            names="Categoría",
             title="Distribución de Gastos en Salud 2023",
-            color_discrete_sequence=COLOR_PALETTE
+            color_discrete_sequence=COLOR_PALETTE,
         )
         fig.update_traces(textposition='inside', textinfo='percent+label')
         st.plotly_chart(fig)
 
+        st.write("""
+        Los gastos en personal y equipamiento médico representan la mayor parte
+        del presupuesto de salud, lo que refleja la importancia de contar con
+        profesionales capacitados y tecnología de punta para brindar una
+        atención de calidad.
+        """)
+
     st.write(f"""
-    Se destaca la atención a **{24576:,.0f} usuarios inscritos en el sistema de salud comunal**, 
-    con un aumento de **{614:,.0f} usuarios** en el 2023. El compromiso con la salud se refleja en la 
-    inversión en **equipamiento médico por un total de {format_pesos(519000000)}**, mejorando la calidad 
-    de atención para nuestros vecinos.
+    Se destaca la atención a **{24576:,.0f} usuarios inscritos en el sistema
+    de salud comunal**, con un aumento de **{614:,.0f} usuarios** en el 2023.
+    El compromiso con la salud se refleja en la inversión en
+    **equipamiento médico por un total de {format_pesos(519000000)}**,
+    mejorando la calidad de atención para nuestros vecinos.
     """)
+
 
 elif seccion == "PRODESAL":
     st.header("PRODESAL: Impulsando el Desarrollo Rural")
     st.write(f"""
-    El Programa de Desarrollo de Acción Local (PRODESAL) tiene como objetivo principal mejorar los ingresos 
-    de los microproductores silvoagropecuarios de nuestra comuna. Durante el 2023, se brindó apoyo a **260 usuarios** 
-    a través de asesoría técnica, fondos de operación anual e inversiones en activos productivos.
+    El Programa de Desarrollo de Acción Local (PRODESAL) tiene como objetivo 
+    principal mejorar los ingresos de los microproductores silvoagropecuarios 
+    de nuestra comuna. Durante el 2023, se brindó apoyo a **260 usuarios** 
+    a través de asesoría técnica, fondos de operación anual e inversiones en 
+    activos productivos.
     """)
 
     col1, col2 = st.columns(2)
@@ -497,12 +557,17 @@ elif seccion == "PRODESAL":
         fig.update_traces(texttemplate='%{y:,.0f}', textposition='outside')
         st.plotly_chart(fig)
 
+        st.write("""
+        El programa PRODESAL se financia a través de un convenio entre 
+        INDAP y la Municipalidad.
+        """)
+
     with col2:
         st.subheader("Proyectos de Inversión Ejecutados")
         fig = px.bar(
-            data["prodesal"], 
-            x="Tipo de Ayuda", 
-            y="Monto Total       (CLP)", 
+            data["prodesal"],
+            x="Tipo de Ayuda",
+            y="Monto Total (CLP)",
             title="Inversión en Proyectos PRODESAL 2023",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -510,27 +575,35 @@ elif seccion == "PRODESAL":
         fig.update_traces(texttemplate='%{y:,.0f}', textposition='outside')
         st.plotly_chart(fig)
 
-    st.write("""
-    Se destaca la inversión de **{format_pesos(55499324)} en subsidios para proyectos de inversión**, 
-    beneficiando a 39 usuarios. Además, se entregaron **bonos de insumos por un total de {format_pesos(33700000)}** 
-    a 220 usuarios, y se implementaron proyectos de riego que mejoran la productividad agrícola.
+        st.write("""
+        Se han ejecutado diversos proyectos de inversión para apoyar a los
+        microproductores de la comuna.
+        """)
+
+    st.write(f"""
+    Se destaca la inversión de **{format_pesos(55499324)} en subsidios 
+    para proyectos de inversión**, beneficiando a 39 usuarios. Además, 
+    se entregaron **bonos de insumos por un total de 
+    {format_pesos(33700000)}** a 220 usuarios, y se implementaron 
+    proyectos de riego que mejoran la productividad agrícola.
     """)
 
 elif seccion == "Reciclaje":
     st.header("Reciclaje: Comprometidos con el Medio Ambiente")
     st.write(f"""
-    En Doñihue estamos comprometidos con la gestión responsable de los residuos. Durante el 2023, 
-    se recolectaron **{data["reciclaje"]["Cantidad (kg)"].sum():,.0f} kg de residuos**, incluyendo 
-    vidrio, PET, aceite y residuos domiciliarios. 
+    En Doñihue estamos comprometidos con la gestión responsable de los 
+    residuos. Durante el 2023, se recolectaron 
+    **{data["reciclaje"]["Cantidad (kg)"].sum():,.0f} kg de residuos**, 
+    incluyendo vidrio, PET, aceite y residuos domiciliarios.
     """)
 
     col1, col2 = st.columns(2)
 
     with col1:
         fig = px.bar(
-            data["reciclaje"], 
-            x="Tipo de Residuo", 
-            y="Cantidad (kg)", 
+            data["reciclaje"],
+            x="Tipo de Residuo",
+            y="Cantidad (kg)",
             title="Cantidad de Residuos Recogidos por Tipo",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -540,18 +613,21 @@ elif seccion == "Reciclaje":
 
     with col2:
         st.write(f"""
-        El convenio con la empresa Green Planet Spa para el reciclaje de PET ha sido fundamental, 
-        permitiendo recolectar **{63200:,.0f} kg de PET**, un aumento del 88% respecto al año anterior. 
-        Seguimos trabajando para ampliar la cobertura de nuestros programas de reciclaje y promover 
-        la conciencia ambiental en la comunidad.
+        El convenio con la empresa Green Planet Spa para el reciclaje de 
+        PET ha sido fundamental, permitiendo recolectar **{63200:,.0f} kg 
+        de PET**, un aumento del 88% respecto al año anterior. Seguimos 
+        trabajando para ampliar la cobertura de nuestros programas de 
+        reciclaje y promover la conciencia ambiental en la comunidad.
         """)
 
 elif seccion == "Beneficios Sociales":
     st.header("Beneficios Sociales: Apoyando a Quienes Más lo Necesitan")
     st.write(f"""
-    A través de la Dirección de Desarrollo Comunitario (DIDECO), la Municipalidad de Doñihue 
-    brinda apoyo a las familias más vulnerables de la comuna. Durante el 2023, se entregaron 
-    beneficios sociales por un total de **{format_pesos(data["beneficios_sociales"]["Monto Total (CLP)"].sum())}**, 
+    A través de la Dirección de Desarrollo Comunitario (DIDECO), la 
+    Municipalidad de Doñihue brinda apoyo a las familias más vulnerables 
+    de la comuna. Durante el 2023, se entregaron beneficios sociales 
+    por un total de 
+    **{format_pesos(data["beneficios_sociales"]["Monto Total (CLP)"].sum())}**, 
     impactando positivamente en la calidad de vida de nuestros vecinos.
     """)
 
@@ -559,9 +635,9 @@ elif seccion == "Beneficios Sociales":
 
     with col1:
         fig = px.bar(
-            data["beneficios_sociales"], 
-            x="Tipo de Beneficio", 
-            y="Monto Total (CLP)", 
+            data["beneficios_sociales"],
+            x="Tipo de Beneficio",
+            y="Monto Total (CLP)",
             title="Distribución de Beneficios Sociales 2023",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -571,17 +647,20 @@ elif seccion == "Beneficios Sociales":
 
     with col2:
         st.write("""
-        Los beneficios incluyeron la entrega de agua potable, apoyo económico a través de la caja chica, 
-        realización de informes sociales, entrega de alimentos no perecibles, pañales y materiales 
-        de construcción. Estas acciones demuestran el compromiso de la Municipalidad con el bienestar 
-        de las familias que más lo necesitan.
+        Los beneficios incluyeron la entrega de agua potable, apoyo 
+        económico a través de la caja chica, realización de informes 
+        sociales, entrega de alimentos no perecibles, pañales y 
+        materiales de construcción. Estas acciones demuestran el 
+        compromiso de la Municipalidad con el bienestar de las 
+        familias que más lo necesitan.
         """)
 
 elif seccion == "Eventos Culturales":
     st.header("Eventos Culturales: Celebrando Nuestra Identidad")
     st.write("""
-    Doñihue es una comuna rica en cultura y tradiciones. Durante el 2023, se llevaron a cabo diversos 
-    eventos culturales que congregaron a miles de vecinos y visitantes, promoviendo el arte, la música, 
+    Doñihue es una comuna rica en cultura y tradiciones. Durante el 
+    2023, se llevaron a cabo diversos eventos culturales que congregaron 
+    a miles de vecinos y visitantes, promoviendo el arte, la música, 
     el folclor y la identidad local.
     """)
 
@@ -589,13 +668,13 @@ elif seccion == "Eventos Culturales":
 
     with col1:
         fig = px.bar(
-            data["eventos_culturales"], 
-            x="Evento", 
-            y="Asistentes", 
+            data["eventos_culturales"],
+            x="Evento",
+            y="Asistentes",
             title="Asistencia a Eventos Culturales 2023",
             color_discrete_sequence=COLOR_PALETTE
         )
-        fig.update_layout(xaxis_title="", yaxis_title="Cantidad de Asistentes")
+        fig.update_layout(xaxis_title="Eventos", yaxis_title="Cantidad de Asistentes")
         fig.update_traces(texttemplate='%{y:,.0f}', textposition='outside')
         st.plotly_chart(fig)
 
@@ -605,13 +684,15 @@ elif seccion == "Eventos Culturales":
 
         # Datos para el mapa de calor (deben ser reales)
         eventos = data["eventos_culturales"]["Evento"].tolist()
-        meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
         # Crear un DataFrame con los datos del mapa de calor
         df_heatmap = pd.DataFrame(index=eventos, columns=meses)
 
         # Reemplazar con datos reales de asistencia por evento y mes
-        df_heatmap.loc["Noches de Verano", "Enero"] = 1200  # Ejemplo
+        # Ejemplo:
+        df_heatmap.loc["Noches de Verano", "Enero"] = 1200
         # ... Agregar datos para los demás eventos y meses ...
 
         fig = go.Figure(data=go.Heatmap(
@@ -626,13 +707,14 @@ elif seccion == "Eventos Culturales":
             yaxis_title="Evento"
         )
         st.plotly_chart(fig)
+        st.write("Mapa que muestra la asistencia a los eventos durante el año.")
 
 elif seccion == "Seguridad":
     st.header("Seguridad: Trabajando por una Comuna Más Tranquila")
     st.write("""
-    La seguridad es una prioridad para la Municipalidad de Doñihue. Durante el 2023, se 
-    implementaron diversas acciones para fortalecer la seguridad pública, con un enfoque 
-    preventivo y de participación ciudadana.
+    La seguridad es una prioridad para la Municipalidad de Doñihue. 
+    Durante el 2023, se implementaron diversas acciones para fortalecer 
+    la seguridad pública, con un enfoque preventivo y de participación ciudadana.
     """)
 
     col1, col2, col3 = st.columns(3)
@@ -640,9 +722,9 @@ elif seccion == "Seguridad":
     with col1:
         st.subheader("Actividades de Seguridad Pública")
         fig = px.bar(
-            data["seguridad_publica"], 
-            x="Tipo de Actividad", 
-            y="Cantidad", 
+            data["seguridad_publica"],
+            x="Tipo de Actividad",
+            y="Cantidad",
             title="Actividades de Seguridad Pública 2023",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -653,14 +735,15 @@ elif seccion == "Seguridad":
     with col2:
         st.subheader("Proyectos de Seguridad")
         data_proyectos_seguridad = {
-            "Proyecto": ["Instalación de Cámaras", "Operativos de Seguridad", "Campañas de Concientización", "Mejoras en Iluminación"],
+            "Proyecto": ["Instalación de Cámaras", "Operativos de Seguridad",
+                         "Campañas de Concientización", "Mejoras en Iluminación"],
             "Cantidad": [174, 50, 30, 20]
         }
         df_proyectos_seguridad = pd.DataFrame(data_proyectos_seguridad)
         fig = px.bar(
-            df_proyectos_seguridad, 
-            x="Proyecto", 
-            y="Cantidad", 
+            df_proyectos_seguridad,
+            x="Proyecto",
+            y="Cantidad",
             title="Proyectos de Seguridad 2023",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -682,22 +765,26 @@ elif seccion == "Seguridad":
         st.plotly_chart(fig)
 
     st.write("""
-    Se realizaron **10 operativos Tolerancia Cero, 8 ferias de seguridad y se instalaron 174 nuevas cámaras de vigilancia**, 
-    fortaleciendo la red de seguridad en la comuna. La participación ciudadana es fundamental en la construcción 
-    de una comuna más segura, y la asistencia al Consejo Comunal de Seguridad Pública es un claro ejemplo de ello. 
+    Se realizaron **10 operativos Tolerancia Cero, 8 ferias de seguridad 
+    y se instalaron 174 nuevas cámaras de vigilancia**, fortaleciendo 
+    la red de seguridad en la comuna. La participación ciudadana es 
+    fundamental en la construcción de una comuna más segura, y la 
+    asistencia al Consejo Comunal de Seguridad Pública es un claro 
+    ejemplo de ello.
     """)
 
 elif seccion == "Evolución de Usuarios de Salud":
     st.header("Evolución de Usuarios de Salud: Un Sistema en Crecimiento")
     st.write("""
-    El sistema de salud comunal ha experimentado un crecimiento constante en los últimos años, 
-    lo que refleja la confianza de la comunidad en nuestros servicios de salud.
+    El sistema de salud comunal ha experimentado un crecimiento constante 
+    en los últimos años, lo que refleja la confianza de la comunidad en 
+    nuestros servicios de salud.
     """)
 
     fig = px.line(
-        data["usuarios_salud"], 
-        x="Año", 
-        y="Usuarios Inscritos", 
+        data["usuarios_salud"],
+        x="Año",
+        y="Usuarios Inscritos",
         title="Evolución de Usuarios Inscritos en el Sistema de Salud Comunal",
         markers=True,
         color_discrete_sequence=COLOR_PALETTE
@@ -707,16 +794,18 @@ elif seccion == "Evolución de Usuarios de Salud":
     st.plotly_chart(fig)
 
     st.write("""
-    El gráfico muestra el aumento constante de usuarios inscritos en el sistema de salud comunal 
-    desde el 2019 hasta el 2023. Este crecimiento demuestra la importancia de seguir invirtiendo 
-    en salud para asegurar la atención médica de calidad a todos nuestros vecinos.
+    El gráfico muestra el aumento constante de usuarios inscritos en el 
+    sistema de salud comunal desde el 2019 hasta el 2023. Este 
+    crecimiento demuestra la importancia de seguir invirtiendo en 
+    salud para asegurar la atención médica de calidad a todos nuestros vecinos.
     """)
 
 elif seccion == "Presupuesto Municipal":
     st.header("Presupuesto Municipal: Gestionando los Recursos con Responsabilidad")
     st.write("""
-    La Municipalidad de Doñihue gestiona los recursos con responsabilidad y transparencia, 
-    destinándolos a las áreas prioritarias para el desarrollo de la comuna.
+    La Municipalidad de Doñihue gestiona los recursos con responsabilidad 
+    y transparencia, destinándolos a las áreas prioritarias para el 
+    desarrollo de la comuna.
     """)
 
     col1, col2 = st.columns(2)
@@ -724,9 +813,9 @@ elif seccion == "Presupuesto Municipal":
     with col1:
         st.subheader("Evolución del Presupuesto Total")
         fig = px.area(
-            data["presupuesto_municipal"], 
-            x="Año", 
-            y="Presupuesto Total (CLP)", 
+            data["presupuesto_municipal"],
+            x="Año",
+            y="Presupuesto Total (CLP)",
             title="Evolución del Presupuesto Total de la Municipalidad",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -742,9 +831,9 @@ elif seccion == "Presupuesto Municipal":
         }
         df_presupuesto_areas = pd.DataFrame(presupuesto_areas)
         fig = px.pie(
-            df_presupuesto_areas, 
-            values="Presupuesto (CLP)", 
-            names="Área", 
+            df_presupuesto_areas,
+            values="Presupuesto (CLP)",
+            names="Área",
             title="Distribución del Presupuesto por Áreas 2023",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -754,29 +843,31 @@ elif seccion == "Presupuesto Municipal":
     # Gráfico de Gastos Municipales
     st.subheader("Gastos Municipales 2023")
     fig = px.bar(
-        data["gastos_municipales"], 
-        x="Categoría", 
-        y="Porcentaje (%)", 
+        data["gastos_municipales"],
+        x="Categoría",
+        y="Porcentaje (%)",
         title="Distribución de los Gastos Municipales 2023",
         color_discrete_sequence=COLOR_PALETTE
     )
-    fig.update_layout(xaxis_title="", yaxis_title="Porcentaje (%)")
+    fig.update_layout(xaxis_title="Categorias", yaxis_title="Porcentaje (%)")
     fig.update_traces(texttemplate='%{y:.2f}%', textposition='outside')
     st.plotly_chart(fig)
 
     st.write("""
-    El gráfico de evolución del presupuesto total muestra un incremento sostenido en los últimos años, 
-    lo que ha permitido realizar importantes inversiones en las áreas prioritarias para la comuna. 
-    La distribución del presupuesto por áreas en el 2023 refleja la importancia que se le da a la 
-    salud, la educación, la infraestructura, la seguridad y la cultura.
+    El gráfico de evolución del presupuesto total muestra un incremento 
+    sostenido en los últimos años, lo que ha permitido realizar 
+    importantes inversiones en las áreas prioritarias para la comuna. 
+    La distribución del presupuesto por áreas en el 2023 refleja la 
+    importancia que se le da a la salud, la educación, la 
+    infraestructura, la seguridad y la cultura.
     """)
 
 elif seccion == "Proyectos":
     st.header("Proyectos: Construyendo el Futuro de Doñihue")
     st.write("""
-    La Municipalidad de Doñihue ha desarrollado una importante cartera de proyectos durante el 2023, 
-    con el objetivo de mejorar la calidad de vida de los vecinos y fortalecer el desarrollo de 
-    la comuna. 
+    La Municipalidad de Doñihue ha desarrollado una importante cartera 
+    de proyectos durante el 2023, con el objetivo de mejorar la calidad 
+    de vida de los vecinos y fortalecer el desarrollo de la comuna.
     """)
 
     # Filtros por Área y Categoría
@@ -795,10 +886,10 @@ elif seccion == "Proyectos":
     with col1:
         st.subheader("Listado de Proyectos 2023")
         fig = px.bar(
-            filtered_proyectos, 
-            x="Proyecto", 
-            y="Monto de Inversión (CLP)", 
-            color="Área", 
+            filtered_proyectos,
+            x="Proyecto",
+            y="Monto de Inversión (CLP)",
+            color="Área",
             title="Monto de Inversión por Proyecto",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -809,9 +900,9 @@ elif seccion == "Proyectos":
     with col2:
         st.subheader("Distribución del Monto de Inversión por Área")
         fig = px.pie(
-            filtered_proyectos, 
-            values="Monto de Inversión (CLP)", 
-            names="Área", 
+            filtered_proyectos,
+            values="Monto de Inversión (CLP)",
+            names="Área",
             title="Distribución del Monto de Inversión por Área",
             color_discrete_sequence=COLOR_PALETTE
         )
@@ -821,15 +912,15 @@ elif seccion == "Proyectos":
     # Mapa de Calor del Monto de Inversión por Área y Categoría (Interactivo)
     st.subheader("Mapa de Calor del Monto de Inversión por Área y Categoría")
     st.write("""
-    Explore el monto de inversión en proyectos por área y categoría en el mapa de calor interactivo. 
+    Explore el monto de inversión en proyectos por área y categoría en el mapa de calor interactivo.
     """)
 
     heatmap_data = pd.pivot_table(
-        filtered_proyectos, 
-        values="Monto de Inversión (CLP)", 
-        index="Área", 
-        columns="Categoría", 
-        aggfunc=np.sum, 
+        filtered_proyectos,
+        values="Monto de Inversión (CLP)",
+        index="Área",
+        columns="Categoría",
+        aggfunc=np.sum,
         fill_value=0
     )
     fig = go.Figure(data=go.Heatmap(
@@ -848,14 +939,14 @@ elif seccion == "Proyectos":
     # Mapa 3D de Proyectos
     st.subheader("Mapa 3D de Proyectos")
     st.write("""
-    Explore la ubicación de los proyectos en el mapa 3D interactivo. 
+    Explore la ubicación de los proyectos en el mapa 3D interactivo.
     """)
     fig = px.scatter_3d(
-        filtered_proyectos,  
-        x='Latitud', 
-        y='Longitud', 
-        z='Elevación', 
-        color='Área', 
+        filtered_proyectos,
+        x='Latitud',
+        y='Longitud',
+        z='Elevación',
+        color='Área',
         title='Mapa 3D de Proyectos',
         hover_data=["Proyecto"],
         color_discrete_sequence=COLOR_PALETTE
@@ -865,107 +956,123 @@ elif seccion == "Proyectos":
 elif seccion == "Auditorías 2023":
     st.header("Auditorías 2023: Transparencia y Mejora Continua")
     st.write("""
-    La Municipalidad de Doñihue se somete a auditorías internas y externas para asegurar la 
-    transparencia en la gestión de los recursos y la mejora continua de sus procesos.
+    La Municipalidad de Doñihue se somete a auditorías internas y 
+    externas para asegurar la transparencia en la gestión de los recursos 
+    y la mejora continua de sus procesos.
     """)
 
     st.write("""
-    Durante el 2023, se realizaron **cuatro auditorías internas**, que se enfocaron en:
+    Durante el 2023, se realizaron **cuatro auditorías internas**, 
+    que se enfocaron en:
 
     * Gestión del programa FAEP en el Departamento de Educación Municipal.
-    * Ingresos y gastos de los programas de imágenes diagnósticas y odontología integral en el DESAM Doñihue.
+    * Ingresos y gastos de los programas de imágenes diagnósticas y 
+    odontología integral en el DESAM Doñihue.
     * Control de vehículos municipales.
 
-    Además, la Contraloría General de la República (CGR) realizó una **auditoría externa**, 
-    emitiendo el informe N°25/2023, que identificó algunos hallazgos relacionados con la gestión 
-    municipal. 
+    Además, la Contraloría General de la República (CGR) realizó 
+    una **auditoría externa**, emitiendo el informe N°25/2023, 
+    que identificó algunos hallazgos relacionados con la gestión municipal.
     """)
 
     st.write("""
-    La Municipalidad ha tomado medidas para corregir las observaciones señaladas en las auditorías 
-    y fortalecer sus procesos de control interno. La transparencia y la rendición de cuentas son 
-    fundamentales para una gestión municipal eficiente y responsable.
+    La Municipalidad ha tomado medidas para corregir las observaciones 
+    señaladas en las auditorías y fortalecer sus procesos de control 
+    interno. La transparencia y la rendición de cuentas son fundamentales 
+    para una gestión municipal eficiente y responsable.
     """)
 
 elif seccion == "Sumarios":
     st.header("Sumarios: Velando por el Correcto Funcionamiento de la Municipalidad")
     st.write("""
-    La Municipalidad de Doñihue realiza investigaciones sumarias y sumarios administrativos para 
-    asegurar el correcto funcionamiento de la institución y el cumplimiento de la normativa vigente.
+    La Municipalidad de Doñihue realiza investigaciones sumarias y 
+    sumarios administrativos para asegurar el correcto funcionamiento 
+    de la institución y el cumplimiento de la normativa vigente.
     """)
 
     st.write("""
-    Durante el 2023, se instruyó la realización de **19 sumarios e investigaciones sumarias**, de las 
-    cuales 2 se elevaron a sumario administrativo. La mayoría de estas investigaciones fueron 
-    ordenadas por la Contraloría General de la República (CGR) como resultado del Informe Final 
-    N°25/2023.
+    Durante el 2023, se instruyó la realización de 
+    **19 sumarios e investigaciones sumarias**, de las cuales 2 se 
+    elevaron a sumario administrativo. La mayoría de estas 
+    investigaciones fueron ordenadas por la Contraloría General de 
+    la República (CGR) como resultado del Informe Final N°25/2023.
     """)
 
     st.write("""
-    La Municipalidad se toma muy en serio cualquier irregularidad en su funcionamiento y 
-    actúa con diligencia para investigar y sancionar las faltas que se detecten. 
+    La Municipalidad se toma muy en serio cualquier irregularidad 
+    en su funcionamiento y actúa con diligencia para investigar 
+    y sancionar las faltas que se detecten.
     """)
 
 elif seccion == "Juicios":
     st.header("Juicios: Defendiendo los Intereses de la Municipalidad")
     st.write("""
-    La Municipalidad de Doñihue cuenta con un equipo legal que se encarga de defender los intereses 
-    de la institución en los diferentes juicios que se presentan.
+    La Municipalidad de Doñihue cuenta con un equipo legal que se 
+    encarga de defender los intereses de la institución en los diferentes 
+    juicios que se presentan.
     """)
 
     st.write("""
-    Durante el 2023, se llevaron a cabo diversos juicios, principalmente en el ámbito laboral. 
-    En aquellos casos que han concluido por conciliación o avenimiento, se ha logrado un acuerdo 
-    entre las partes por menos del 50% de lo solicitado inicialmente.
+    Durante el 2023, se llevaron a cabo diversos juicios, principalmente 
+    en el ámbito laboral. En aquellos casos que han concluido por 
+    conciliación o avenimiento, se ha logrado un acuerdo entre las 
+    partes por menos del 50% de lo solicitado inicialmente.
     """)
 
     st.write("""
-    Se destaca la sentencia favorable obtenida en la causa Rol N° T-25-2022, donde se rechazó 
-    totalmente la demanda del ex director de SECPLAC por más de $40 millones de pesos.
+    Se destaca la sentencia favorable obtenida en la causa Rol N° 
+    T-25-2022, donde se rechazó totalmente la demanda del ex director 
+    de SECPLAC por más de $40 millones de pesos.
     """)
 
 elif seccion == "Convenios":
     st.header("Convenios: Fortaleciendo las Alianzas para el Desarrollo")
     st.write("""
-    La Municipalidad de Doñihue establece convenios de colaboración con diversas instituciones 
-    públicas y privadas para fortalecer las acciones que se realizan en beneficio de la comunidad.
+    La Municipalidad de Doñihue establece convenios de colaboración 
+    con diversas instituciones públicas y privadas para fortalecer las 
+    acciones que se realizan en beneficio de la comunidad.
     """)
 
     st.write("""
     Durante el 2023, se celebraron **37 convenios**, destacando los siguientes:
 
     * Convenio de transferencia de recursos para la Oficina Local de la Niñez.
-    * Convenio con el Gobierno Regional de O'Higgins para el proyecto "Deporte en Tu Barrio".
-    * Convenio con el Gobierno Regional de O'Higgins para el programa "Red Local de Apoyos y Cuidados - SNAC".
+    * Convenio con el Gobierno Regional de O'Higgins para el proyecto 
+    "Deporte en Tu Barrio".
+    * Convenio con el Gobierno Regional de O'Higgins para el programa 
+    "Red Local de Apoyos y Cuidados - SNAC".
     * Convenios con los municipios de Mostazal y Las Condes.
     """)
 
     st.write("""
-    Estos convenios permiten a la Municipalidad acceder a recursos, conocimientos y experiencias 
-    que enriquecen la gestión municipal y amplían las oportunidades para los vecinos de Doñihue.
+    Estos convenios permiten a la Municipalidad acceder a recursos, 
+    conocimientos y experiencias que enriquecen la gestión municipal y 
+    amplían las oportunidades para los vecinos de Doñihue.
     """)
 
 elif seccion == "DIDECO":
     st.header("DIDECO: Impulsando el Desarrollo Comunitario")
     st.write("""
-    La Dirección de Desarrollo Comunitario (DIDECO) juega un rol fundamental en la Municipalidad de 
-    Doñihue, impulsando el desarrollo social, cultural y económico de la comuna. 
+    La Dirección de Desarrollo Comunitario (DIDECO) juega un rol 
+    fundamental en la Municipalidad de Doñihue, impulsando el 
+    desarrollo social, cultural y económico de la comuna.
     """)
 
     st.write(f"""
-Durante el 2023, DIDECO trabajó con 65 organizaciones territoriales y 294 organizaciones 
-funcionales, otorgando un total de **{format_pesos(26053987)}** en fondos de desarrollo vecinal (FONDEVE) 
-y **{format_pesos(197964648)}** en subvenciones.
-""")
-    
+    Durante el 2023, DIDECO trabajó con 65 organizaciones territoriales 
+    y 294 organizaciones funcionales, otorgando un total de 
+    **{format_pesos(26053987)}** en fondos de desarrollo vecinal 
+    (FONDEVE) y **{format_pesos(197964648)}** en subvenciones.
+    """)
 
     st.subheader("Principales Programas de DIDECO")
 
     # Fomento Productivo
     st.markdown("**Fomento Productivo:**")
     st.write("""
-    DIDECO apoya a los emprendedores y microempresarios de Doñihue a través de capacitaciones, 
-    asistencia técnica y vinculación con el ecosistema regional de emprendimiento.
+    DIDECO apoya a los emprendedores y microempresarios de Doñihue a 
+    través de capacitaciones, asistencia técnica y vinculación con el 
+    ecosistema regional de emprendimiento.
     """)
 
     col1, col2, col3 = st.columns(3)
@@ -978,14 +1085,16 @@ y **{format_pesos(197964648)}** en subvenciones.
         st.metric("Empresarios/as promovidos en Sabingo", data["fomento_productivo"]["Valor"][2])
 
     st.write(f"""
-    Se destaca la promoción de empresarios y empresarias de Doñihue en el programa Sabingo de Chilevisión, 
-    con una valorización estimada de **{format_pesos(400000000)}**.
+    Se destaca la promoción de empresarios y empresarias de Doñihue en 
+    el programa Sabingo de Chilevisión, con una valorización estimada 
+    de **{format_pesos(400000000)}**.
     """)
 
     # Oficina de Vivienda
     st.markdown("**Oficina de Vivienda:**")
     st.write("""
-    La Oficina de Vivienda promueve y proyecta soluciones habitacionales para los vecinos de Doñihue. 
+    La Oficina de Vivienda promueve y proyecta soluciones habitacionales 
+    para los vecinos de Doñihue.
     """)
 
     fig = go.Figure(data=[go.Table(
@@ -1001,20 +1110,23 @@ y **{format_pesos(197964648)}** en subvenciones.
     st.plotly_chart(fig)
 
     st.write("""
-    Se destaca la cesión de terrenos para proyectos habitacionales, como el terreno ubicado en Rosa Zúñiga SN 
-    para el Comité Doña Antonia y el terreno El Pedregal para el Comité Los Padros y el Club Deportivo La Isla.
+    Se destaca la cesión de terrenos para proyectos habitacionales, 
+    como el terreno ubicado en Rosa Zúñiga SN para el Comité Doña 
+    Antonia y el terreno El Pedregal para el Comité Los Padros y el 
+    Club Deportivo La Isla.
     """)
 
     # Medio Ambiente
     st.markdown("**Medio Ambiente:**")
     st.write("""
-    La Unidad de Medio Ambiente promueve la protección del entorno natural y la gestión responsable de los residuos.
+    La Unidad de Medio Ambiente promueve la protección del entorno 
+    natural y la gestión responsable de los residuos.
     """)
 
     fig = px.bar(
-        data["medio_ambiente"], 
-        x="Programa", 
-        y="Cantidad", 
+        data["medio_ambiente"],
+        x="Programa",
+        y="Cantidad",
         title="Programas de Medio Ambiente 2023",
         color_discrete_sequence=COLOR_PALETTE
     )
@@ -1022,21 +1134,23 @@ y **{format_pesos(197964648)}** en subvenciones.
     st.plotly_chart(fig)
 
     st.write("""
-    Se destaca el convenio de reciclaje de PET con la empresa Green Planet Spa, la plantación de árboles nativos 
-    y exóticos en la comuna, y el operativo de tenencia responsable de mascotas.
+    Se destaca el convenio de reciclaje de PET con la empresa Green 
+    Planet Spa, la plantación de árboles nativos y exóticos en la 
+    comuna, y el operativo de tenencia responsable de mascotas.
     """)
 
     # Emergencias y Desastres
     st.markdown("**Emergencias y Desastres:**")
     st.write("""
-    La Municipalidad de Doñihue cuenta con un equipo de emergencia preparado para atender las situaciones 
-    de riesgo que puedan afectar a la comunidad.
+    La Municipalidad de Doñihue cuenta con un equipo de emergencia 
+    preparado para atender las situaciones de riesgo que puedan 
+    afectar a la comunidad.
     """)
 
     fig = px.bar(
-        data["emergencias"], 
-        x="Tipo de Ayuda", 
-        y="Cantidad", 
+        data["emergencias"],
+        x="Tipo de Ayuda",
+        y="Cantidad",
         title="Atención a Emergencias y Desastres 2023",
         color_discrete_sequence=COLOR_PALETTE
     )
@@ -1044,63 +1158,91 @@ y **{format_pesos(197964648)}** en subvenciones.
     fig.update_traces(texttemplate='%{y:,.0f}', textposition='outside')
     st.plotly_chart(fig)
 
-    st.write("""
-    Durante el 2023, se atendieron a 1.383 personas afectadas por emergencias, se entregaron 17 viviendas de emergencia 
-    y se gestionaron recursos por **{format_pesos(82000000)} del SENAPRED**. Se invirtieron **{format_pesos(970000000)}** 
-    en trabajos correctivos en la ribera del río Cachapoal para proteger a la comunidad de futuras inundaciones.
+    st.write(f"""
+    Durante el 2023, se atendieron a 1.383 personas afectadas por 
+    emergencias, se entregaron 17 viviendas de emergencia y se 
+    gestionaron recursos por **{format_pesos(82000000)} del SENAPRED**. 
+    Se invirtieron **{format_pesos(970000000)}** en trabajos 
+    correctivos en la ribera del río Cachapoal para proteger a la 
+    comunidad de futuras inundaciones.
     """)
 
     # Deporte
     st.markdown("**Deporte:**")
     st.write("""
-    La Oficina de Deportes promueve la actividad física y los hábitos de vida saludable a través de talleres 
-    deportivos para todas las edades.
+    La Oficina de Deportes promueve la actividad física y los 
+    hábitos de vida saludable a través de talleres deportivos 
+    para todas las edades.
     """)
 
     fig = px.bar(
-        data["deporte"], 
-        x="Taller", 
-        y="Inscritos", 
+        data["deporte"],
+        x="Taller",
+        y="Inscritos",
         title="Talleres Deportivos 2023",
         color_discrete_sequence=COLOR_PALETTE
     )
-    fig.update_layout(xaxis_title="", yaxis_title="Cantidad de Inscritos")
+    fig.update_layout(xaxis_title="Talleres", yaxis_title="Cantidad de Inscritos")
     st.plotly_chart(fig)
 
     st.write("""
-    Se realizaron talleres de fútbol, crossfit, básquetbol, tenis de mesa, futsal, bochas y zumba, 
-    beneficiando a un gran número de vecinos.
+    Se realizaron talleres de fútbol, crossfit, básquetbol, tenis de 
+    mesa, futsal, bochas y zumba, beneficiando a un gran número de vecinos.
     """)
 
     # Oficina de Inclusión Social
     st.markdown("**Oficina de Inclusión Social:**")
     st.write("""
-    La Oficina de Inclusión Social trabaja para promover la inclusión de las personas con discapacidad 
-    y garantizar sus derechos.
+    La Oficina de Inclusión Social trabaja para promover la inclusión 
+    de las personas con discapacidad y garantizar sus derechos.
     """)
 
     fig = px.bar(
-        data["inclusion_social"], 
-        x="Actividad", 
-        y="Participantes", 
+        data["inclusion_social"],
+        x="Actividad",
+        y="Participantes",
         title="Actividades de Inclusión Social 2023",
         color_discrete_sequence=COLOR_PALETTE
     )
-    fig.update_layout(xaxis_title="", yaxis_title="Cantidad de Participantes")
+    fig.update_layout(xaxis_title="Actividades", yaxis_title="Cantidad de Participantes")
     st.plotly_chart(fig)
 
     st.write("""
-    Se realizaron actividades de equinoterapia, rehabilitación integral para niños, rehabilitación para 
-    miembros de organizaciones de discapacidad, y capacitaciones a dirigentes sobre el trato a personas 
-    con discapacidad.
+    Se realizaron actividades de equinoterapia, rehabilitación integral 
+    para niños, rehabilitación para miembros de organizaciones de 
+    discapacidad, y capacitaciones a dirigentes sobre el trato a 
+    personas con discapacidad.
     """)
 
-# ... (Continuar con las demás secciones, mejorando gráficos e información) ...
+# ... (Secciones "Equipo de Operaciones", "Plan de Inversiones en 
+# Infraestructura" y "Complejo El Tabo" por completar) ...
 
-# Mensaje final
-st.sidebar.write("""
-**Este dashboard presenta los avances de Doñihue en 2023 bajo la dirección de la Alcaldesa Pabla Ponce Valle 
-y el Honorable Concejo Municipal. Gracias por visitarnos.**
+elif seccion == "Equipo de Operaciones":
+    # ... (Añade el código para esta sección) ...
+    st.header("Equipo de Operaciones:  [Nombre de la sección]")
+    st.write("""
+    [Descripción de la sección y análisis de los datos presentados.]
+    """)
+    # Asegúrate de tener datos para esta sección y visualizaciones.
 
-**#DoñihueTradiciónyProgreso**
-""") 
+elif seccion == "Plan de Inversiones en Infraestructura":
+    # ... (Añade el código para esta sección) ...
+    st.header("Plan de Inversiones en Infraestructura: [Nombre de la sección]")
+    st.write("""
+    [Descripción de la sección y análisis de los datos presentados.]
+    """)
+    # Asegúrate de tener datos para esta sección y visualizaciones.
+
+elif seccion == "Complejo El Tabo":
+    # ... (Añade el código para esta sección) ...
+    st.header("Complejo El Tabo:  [Nombre de la sección]")
+    st.write("""
+    [Descripción de la sección y análisis de los datos presentados.]
+    """)
+    # Asegúrate de tener datos para esta sección y visualizaciones.
+
+
+# Mensaje final en la sidebar
+st.sidebar.markdown("---")
+st.sidebar.write("**Este dashboard presenta los avances de Doñihue en 2023.**")
+st.sidebar.write("**#DoñihueTradiciónyProgreso**")
